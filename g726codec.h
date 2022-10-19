@@ -1,6 +1,6 @@
 /*
  * Cut from ffmpeg, only suitable for 16 bits wide
- * 
+ *
  * CARE: It's different from CCITT's algorithm
  * */
 
@@ -95,7 +95,7 @@ typedef struct GetBitContext {
     const uint8_t *buffer, *buffer_end;
     int index;
     int size_in_bits;
-    int size_in_bits_plus8; 
+    int size_in_bits_plus8;
 } GetBitContext;
 
 
@@ -155,20 +155,21 @@ static inline uint8_t av_mod_uintp2(unsigned int a, unsigned int p)
 
 
 
-int g726_encode_init();
+int g726_encode_init(G726Context **c);
 
 /**
  * Encode some frames
  * @param  out 		Data after encoding
  * @param  inS16Len	Data len before encoding
- * @param  in		Data  before encoding 
+ * @param  in		Data  before encoding
  * @return clipped value
  */
-int g726_encode_frame(uint8_t *out, int inS16Len, const int16_t *in);
+int g726_encode_frame(G726Context **c, uint8_t *out, int inS16Len, const int16_t *in);
 
-int g726_encode_destroy();
+int g726_encode_destroy(G726Context **c);
 
-int g726_decode_init();
+
+int g726_decode_init(G726Context **c);
 /**
  * Decode some frames
  * @param  in		Data  before decoding
@@ -176,8 +177,9 @@ int g726_decode_init();
  * @param  out 		Data after decoding
  * @return clipped value
  */
-int g726_decode_frame(const uint8_t *in, int inU8Len, int16_t *out);
+int g726_decode_frame(G726Context **c, const uint8_t *in, int inU8Len, int16_t *out);
 
-int g726_decode_destroy();
+int g726_decode_destroy(G726Context **c);
 
+void g726_decode_flush(G726Context **c);
 #endif
